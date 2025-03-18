@@ -15,6 +15,8 @@ async function getPhotos() {
     console.log(result);
   } catch (error) {
     console.error("Error fetching images:", error);
+    imageDiv.innerText = "Failed to load images. Please try again later.";
+    imageDiv.style.color = "red";
   }
   loader.style.display = "none";
 }
@@ -22,9 +24,13 @@ async function getPhotos() {
 function displayPhotos(photos) {
   const fragment = document.createDocumentFragment();
   photos.forEach((obj) => {
+    const anchor = document.createElement("a");
+    anchor.href = obj.links.html;
+    anchor.target = "_blank";
     const image = document.createElement("img");
     image.src = obj.urls.regular;
-    fragment.appendChild(image);
+    anchor.append(image);
+    fragment.appendChild(anchor);
   });
   imageDiv.append(fragment);
   loaded = true;
